@@ -1,3 +1,5 @@
+using API.Services;
+using Azure.Storage.Blobs;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -24,6 +26,9 @@ namespace API.Extensions
                     .WithOrigins(cors)
                     .AllowCredentials();
             }));
+            
+            services.AddScoped(x => new BlobServiceClient(configuration.GetConnectionString("AzureBlobStorage")));
+            services.AddScoped<IBlobService, BlobService>();
         }
     }
 }

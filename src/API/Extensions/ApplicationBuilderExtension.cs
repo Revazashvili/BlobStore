@@ -1,6 +1,5 @@
 using System.Net;
 using System.Text.Json;
-using Application.Common.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
@@ -30,8 +29,8 @@ namespace API.Extensions
                     var contextFeature = context.Features.Get<IExceptionHandlerPathFeature>();
                     if (contextFeature != null)
                     {
-                        var result = JsonSerializer.Serialize(Response.Fail<object>(
-                            $"{contextFeature.Error?.Message} {contextFeature.Error?.InnerException?.Message}"));
+                        var result = JsonSerializer.Serialize(
+                            $"{contextFeature.Error?.Message} {contextFeature.Error?.InnerException?.Message}");
                         logger.LogError("Error occured {error} {@result}",contextFeature.Error, result);
                         await context.Response.WriteAsync(result);
                     }

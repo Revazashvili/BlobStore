@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-namespace Application.Common.DTOs.Requests
+namespace API.Models.Requests
 {
     public class SaveBlobRequest
     {
