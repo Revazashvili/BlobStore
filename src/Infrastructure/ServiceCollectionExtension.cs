@@ -1,7 +1,6 @@
-﻿using System;
-using Application.Common.Interfaces;
-using Infrastructure.Persistence;
-using Microsoft.EntityFrameworkCore;
+﻿using Application.Common.Interfaces;
+using Azure.Storage.Blobs;
+using Infrastructure.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -19,17 +18,9 @@ namespace Infrastructure
         /// <param name="configuration"><see cref="IConfiguration"/> interface</param>
         public static void AddInfrastructure(this IServiceCollection services,IConfiguration configuration)
         {
-            if (Convert.ToBoolean(configuration.GetSection("UseInMemoryDatabase").Value))
-                services.AddDbContext<ApplicationDbContext>(options => options.UseInMemoryDatabase("TestDb"));
-            else
-            {
-                services.AddDbContext<ApplicationDbContext>(options =>
-                {
-                    options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
-                        builder => builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName));
-                });
-            }
-            services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>()!);
+            services.AddScoped(x => new BlobServiceClient(configuration.GetConnectionString("AzureBlobStorage")));
+            services.AddScoped<IApplicationDbContext>();
+            services.AddScoped<IBlobService, BlobService>();
         }
     }
 }

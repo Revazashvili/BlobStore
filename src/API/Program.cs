@@ -1,6 +1,6 @@
 using System;
 using System.Threading.Tasks;
-using Infrastructure.Persistence;
+using Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
