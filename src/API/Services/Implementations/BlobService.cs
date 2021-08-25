@@ -21,10 +21,11 @@ namespace API.Services.Implementations
         public BlobService(BlobServiceClient blobServiceClient, ILogger<BlobService> logger) =>
             (_blobServiceClient, _logger) = (blobServiceClient, logger);
 
-        public async IAsyncEnumerable<string> GetBlobsAsync(string container)
+        public async IAsyncEnumerable<string> GetListAsync(string container,
+            [EnumeratorCancellation] CancellationToken cancellationToken)
         {
             var blobContainer = _blobServiceClient.GetBlobContainerClient(container);
-            await foreach (var blob in blobContainer.GetBlobsAsync())
+            await foreach (var blob in blobContainer.GetBlobsAsync(cancellationToken:cancellationToken))
                 yield return blob.Name;
         }
 
@@ -36,9 +37,10 @@ namespace API.Services.Implementations
             return new GetBlobResponse(downloadedContent?.Value?.Content, downloadedContent?.Value?.ContentType);
         }
 
-        public async IAsyncEnumerable<GetBlobResponse> GetAllAsync(string container)
+        public async IAsyncEnumerable<GetBlobResponse> GetAllAsync(string container,
+            [EnumeratorCancellation] CancellationToken cancellationToken)
         {
-            await foreach (var blob in GetBlobsAsync(container))
+            await foreach (var blob in GetListAsync(container,cancellationToken))
                 yield return await GetAsync(new GetBlobRequest(blob, container));
         }
 
@@ -64,10 +66,10 @@ namespace API.Services.Implementations
                 yield return await SaveAsync(saveBlobRequest, cancellationToken);
         }
 
-        public async Task<bool> DeleteAsync(DeleteBlobRequest request)
+        public async Task<bool> DeleteAsync(DeleteBlobRequest request,CancellationToken cancellationToken)
         {
             var blobContainer = _blobServiceClient.GetBlobContainerClient(request.Container);
-            return (await blobContainer.DeleteBlobIfExistsAsync(request.Blob)).Value;
+            return (await blobContainer.DeleteBlobIfExistsAsync(request.Blob,cancellationToken:cancellationToken)).Value;
         }
     }
 }

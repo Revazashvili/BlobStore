@@ -23,13 +23,14 @@ namespace API.Endpoints.Blobs
         [HttpGet]
         [SwaggerOperation(Description = "Returns all weather forecast",
             Summary = "Returns all weather forecast",
-            OperationId = "Blob.Get",
+            OperationId = "Blob.List",
             Tags = new []{ "Blob" })]
         [SwaggerResponse(StatusCodes.Status200OK,"All Weather Forecast Retrieved From Database.",typeof(GetBlobResponse))]
         [SwaggerResponse(StatusCodes.Status400BadRequest,"No Weather Forecast Were Found",typeof(GetBlobResponse))]
-        public override async Task<ActionResult<GetBlobResponse>> HandleAsync([FromQuery]GetBlobRequest request, CancellationToken cancellationToken = new())
+        public override async Task<ActionResult<GetBlobResponse>> HandleAsync([FromQuery]GetBlobRequest getBlobRequest,
+            CancellationToken cancellationToken = new())
         {
-            return Ok(await _blobService.GetAsync(request));
+            return Ok(await _blobService.GetAsync(getBlobRequest));
         }
     }
 }

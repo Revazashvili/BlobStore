@@ -18,7 +18,6 @@ namespace API.Endpoints.Blobs
         .WithResponse<Uri>
     {
         private readonly IBlobService _blobService;
-
         public Save(IBlobService blobService) => _blobService = blobService;
 
         [HttpPost]
@@ -28,10 +27,10 @@ namespace API.Endpoints.Blobs
             Tags = new []{ "Blob" })]
         [SwaggerResponse(StatusCodes.Status200OK,"All Weather Forecast Retrieved From Database.",typeof(GetBlobResponse))]
         [SwaggerResponse(StatusCodes.Status400BadRequest,"No Weather Forecast Were Found",typeof(GetBlobResponse))]
-        public override async Task<ActionResult<Uri>> HandleAsync([FromForm]SaveBlobRequest request, CancellationToken cancellationToken = new CancellationToken())
+        public override async Task<ActionResult<Uri>> HandleAsync([FromForm]SaveBlobRequest saveBlobRequest,
+            CancellationToken cancellationToken = new())
         {
-            var result = await _blobService.SaveAsync(request, cancellationToken);
-            return Ok(result);
+            return Ok(await _blobService.SaveAsync(saveBlobRequest, cancellationToken));
         }
     }
 }

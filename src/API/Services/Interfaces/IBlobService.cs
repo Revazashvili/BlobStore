@@ -16,7 +16,8 @@ namespace API.Services.Interfaces
         /// Returns all blob name from container.
         /// </summary>
         /// <param name="container">The container name.</param>
-        IAsyncEnumerable<string> GetBlobsAsync(string container);
+        /// <param name="cancellationToken"><see cref="CancellationToken"/> instance.</param>
+        IAsyncEnumerable<string> GetListAsync(string container,CancellationToken cancellationToken);
         /// <summary>
         /// Returns blob content and content type.
         /// </summary>
@@ -27,8 +28,9 @@ namespace API.Services.Interfaces
         /// Returns all blob from container.
         /// </summary>
         /// <param name="container">The container name.</param>
+        /// <param name="cancellationToken"><see cref="CancellationToken"/> instance.</param>
         /// <returns><see cref="IReadOnlyList{T}"/></returns>
-        IAsyncEnumerable<GetBlobResponse> GetAllAsync(string container);
+        IAsyncEnumerable<GetBlobResponse> GetAllAsync(string container,CancellationToken cancellationToken);
         /// <summary>
         /// Saves blob into blob storage.
         /// </summary>
@@ -49,7 +51,8 @@ namespace API.Services.Interfaces
         /// Deletes blob from container.
         /// </summary>
         /// <param name="request">Request object for deleting blob.</param>
+        /// <param name="cancellationToken"><see cref="CancellationToken"/> instance.</param>
         /// <returns>True if successfully delete blob, otherwise false.</returns>
-        Task<bool> DeleteAsync(DeleteBlobRequest request);
+        Task<bool> DeleteAsync(DeleteBlobRequest request,CancellationToken cancellationToken);
     }
 }

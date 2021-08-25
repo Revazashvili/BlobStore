@@ -6,9 +6,9 @@
     public static class ContainerRoutes
     {
         /// <summary>
-        /// Route for get container.
+        /// Route for get container list.
         /// </summary>
-        public const string Get = "api/Container/Get";
+        public const string List = "api/Container/List";
         /// <summary>
         /// Route for delete container
         /// </summary>

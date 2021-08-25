@@ -11,19 +11,19 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace API.Endpoints.Containers
 {
-    [Route(ContainerRoutes.Get)]
-    public class Get : BaseAsyncEndpoint
+    [Route(ContainerRoutes.List)]
+    public class List : BaseAsyncEndpoint
         .WithoutRequest
         .WithResponse<IAsyncEnumerable<string>>
     {
         private readonly IContainerService _container;
 
-        public Get(IContainerService container) => _container = container;
+        public List(IContainerService container) => _container = container;
 
         [HttpGet]
         [SwaggerOperation(Description = "Returns all existing container name from blob storage",
             Summary = "Return all container",
-            OperationId = "Container.Get",
+            OperationId = "Container.List",
             Tags = new[] {"Container"})]
         [SwaggerResponse(StatusCodes.Status200OK, "Successfully retrieved all container name from blob storage.",
             typeof(IAsyncEnumerable<string>))]

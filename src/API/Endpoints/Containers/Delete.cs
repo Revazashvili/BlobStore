@@ -28,7 +28,8 @@ namespace API.Endpoints.Containers
         [SwaggerResponse(StatusCodes.Status400BadRequest,"Error occured while deleting container from blob storage.",typeof(bool))]
         [Produces(MediaTypeNames.Application.Json)]
         [Consumes(MediaTypeNames.Application.Json)]
-        public override async Task<ActionResult<bool>> HandleAsync([FromQuery]string container, CancellationToken cancellationToken = new())
+        public override async Task<ActionResult<bool>> HandleAsync([FromQuery]string container,
+            CancellationToken cancellationToken = new())
         {
             var deleted = await _container.DeleteAsync(container);
             return deleted ? Ok(true) : BadRequest(false);
