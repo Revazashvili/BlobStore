@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using API.Routes;
 using API.Services.Interfaces;
 using Ardalis.ApiEndpoints;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -19,20 +18,23 @@ namespace API.Endpoints.Containers
 
         public Delete(IContainerService container) => _container = container;
         
+        /// <summary>
+        /// Delete container
+        /// </summary>
+        /// <remarks>
+        /// Deletes container from blob storage if exists.
+        /// </remarks>
+        /// <param name="container">The container name.</param>
+        /// <param name="cancellationToken"><see cref="CancellationToken"/> instance.</param>
+        /// <returns>True if successfully delete container, otherwise false.</returns>
         [HttpDelete]
-        [SwaggerOperation(Description = "Deletes container from blob storage",
-            Summary = "Delete container",
-            OperationId = "Container.Delete",
-            Tags = new []{ "Container" })]
-        [SwaggerResponse(StatusCodes.Status200OK,"Successfully delete container from blob storage.",typeof(bool))]
-        [SwaggerResponse(StatusCodes.Status400BadRequest,"Error occured while deleting container from blob storage.",typeof(bool))]
+        [SwaggerOperation(Tags = new []{"Container"})]
         [Produces(MediaTypeNames.Application.Json)]
         [Consumes(MediaTypeNames.Application.Json)]
         public override async Task<ActionResult<bool>> HandleAsync([FromQuery]string container,
             CancellationToken cancellationToken = new())
         {
-            var deleted = await _container.DeleteAsync(container);
-            return deleted ? Ok(true) : BadRequest(false);
+            return Ok(await _container.DeleteAsync(container));
         }
     }
 }

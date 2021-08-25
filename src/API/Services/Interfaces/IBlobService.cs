@@ -50,7 +50,7 @@ namespace API.Services.Interfaces
         /// <summary>
         /// Deletes blob from container.
         /// </summary>
-        /// <param name="request">Request object for deleting blob.</param>
+        /// <param name="request">Request object to delete blob.</param>
         /// <param name="cancellationToken"><see cref="CancellationToken"/> instance.</param>
         /// <returns>True if successfully delete blob, otherwise false.</returns>
         Task<bool> DeleteAsync(DeleteBlobRequest request,CancellationToken cancellationToken);

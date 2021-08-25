@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using API.Routes;
 using API.Services.Interfaces;
 using Ardalis.ApiEndpoints;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -20,18 +19,20 @@ namespace API.Endpoints.Containers
 
         public List(IContainerService container) => _container = container;
 
+        /// <summary>
+        /// Return all container name
+        /// </summary>
+        /// <remarks>
+        /// Returns all container name from blob storage.
+        /// </remarks>
         [HttpGet]
-        [SwaggerOperation(Description = "Returns all existing container name from blob storage",
-            Summary = "Return all container",
-            OperationId = "Container.List",
-            Tags = new[] {"Container"})]
-        [SwaggerResponse(StatusCodes.Status200OK, "Successfully retrieved all container name from blob storage.",
-            typeof(IAsyncEnumerable<string>))]
-        [SwaggerResponse(StatusCodes.Status400BadRequest, "No container were found in blob storage",
-            typeof(IAsyncEnumerable<string>))]
+        [SwaggerOperation(Tags = new[] {"Container"})]
         [Produces(MediaTypeNames.Application.Json)]
-        [Consumes(MediaTypeNames.Application.Json)]
         public override async Task<ActionResult<IAsyncEnumerable<string>>> HandleAsync(
-            CancellationToken cancellationToken = new()) => Ok(_container.GetAsync());
+            CancellationToken cancellationToken = new())
+        {
+            return Ok(_container.GetAsync());
+        }
+
     }
 }

@@ -5,6 +5,7 @@ using API.Routes;
 using API.Services.Interfaces;
 using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace API.Endpoints.Blobs
 {
@@ -17,6 +18,7 @@ namespace API.Endpoints.Blobs
         public List(IBlobService blobService) => _blobService = blobService;
         
         [HttpGet]
+        [SwaggerOperation(Tags = new []{"Blob"})]
         public override async Task<ActionResult<IAsyncEnumerable<string>>> HandleAsync([FromQuery] string container,
             CancellationToken cancellationToken = new())
         {

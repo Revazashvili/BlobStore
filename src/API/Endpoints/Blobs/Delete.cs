@@ -5,6 +5,7 @@ using API.Routes;
 using API.Services.Interfaces;
 using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace API.Endpoints.Blobs
 {
@@ -16,7 +17,18 @@ namespace API.Endpoints.Blobs
         private readonly IBlobService _blobService;
         public Delete(IBlobService blobService) => _blobService = blobService;
 
+        /// <summary>
+        /// Delete blob
+        /// </summary>
+        /// <remarks>
+        /// Deletes blob from blob storage if exists.
+        /// </remarks>
+        /// <param name="deleteBlobRequest">The request to delete blob.</param>
+        /// <param name="cancellationToken"><see cref="CancellationToken"/> instance.</param>
+        /// <returns>True if successfully delete blob, otherwise false.</returns>
+        /// <response code="200">Some response on 200</response>
         [HttpDelete]
+        [SwaggerOperation(Tags = new []{"Blob"})]
         public override async Task<ActionResult<bool>> HandleAsync([FromQuery]DeleteBlobRequest deleteBlobRequest,
             CancellationToken cancellationToken = new())
         {
