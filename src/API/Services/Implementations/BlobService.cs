@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using API.Models.Requests;
@@ -7,6 +8,7 @@ using API.Models.Responses;
 using API.Services.Interfaces;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
+using Microsoft.Extensions.Logging;
 
 namespace API.Services.Implementations
 {
@@ -14,15 +16,16 @@ namespace API.Services.Implementations
     public class BlobService : IBlobService
     {
         private readonly BlobServiceClient _blobServiceClient;
+        private readonly ILogger<BlobService> _logger;
 
-        public BlobService(BlobServiceClient blobServiceClient)
+        public BlobService(BlobServiceClient blobServiceClient, ILogger<BlobService> logger) =>
+            (_blobServiceClient, _logger) = (blobServiceClient, logger);
+
+        public async IAsyncEnumerable<string> GetBlobsAsync(string container)
         {
-            _blobServiceClient = blobServiceClient;
-        }
-        
-        public Task<IReadOnlyList<string>> GetBlobsAsync(string container)
-        {
-            throw new NotImplementedException();
+            var blobContainer = _blobServiceClient.GetBlobContainerClient(container);
+            await foreach (var blob in blobContainer.GetBlobsAsync())
+                yield return blob.Name;
         }
 
         public async Task<GetBlobResponse> GetAsync(GetBlobRequest request)
@@ -30,17 +33,13 @@ namespace API.Services.Implementations
             var blobContainer = _blobServiceClient.GetBlobContainerClient(request.Container);
             var blobClient = blobContainer.GetBlobClient(request.Blob);
             var downloadedContent = await blobClient.DownloadAsync();
-            var blobDto = new GetBlobResponse
-            {
-                Content = downloadedContent.Value.Content,
-                ContentType = downloadedContent.Value.ContentType
-            };
-            return blobDto;
+            return new GetBlobResponse(downloadedContent?.Value?.Content, downloadedContent?.Value?.ContentType);
         }
 
-        public async Task<IReadOnlyList<GetBlobResponse>> GetAllAsync(string container)
+        public async IAsyncEnumerable<GetBlobResponse> GetAllAsync(string container)
         {
-            throw new NotImplementedException();
+            await foreach (var blob in GetBlobsAsync(container))
+                yield return await GetAsync(new GetBlobRequest(blob, container));
         }
 
         public async Task<Uri?> SaveAsync(SaveBlobRequest request, CancellationToken cancellationToken)
@@ -49,29 +48,25 @@ namespace API.Services.Implementations
             await blobContainer.CreateIfNotExistsAsync(PublicAccessType.BlobContainer, null,cancellationToken);
             var blobName = string.IsNullOrEmpty(request.BlobName) ? $"{request.Blob.FileName}-{Guid.NewGuid():N}" : request.BlobName;
             var blobClient = blobContainer.GetBlobClient(blobName);
-            if (!await blobClient.ExistsAsync(cancellationToken))
+            if (await blobClient.ExistsAsync(cancellationToken))
             {
-                await blobClient.UploadAsync(request.Blob.OpenReadStream(), cancellationToken);
-                return blobClient.Uri;
+                _logger.LogInformation("Blob with name {blobName} already exists.", blobName);
+                return null;
             }
-            return null;
+            await blobClient.UploadAsync(request.Blob.OpenReadStream(), cancellationToken);
+            return blobClient.Uri;
         }
 
-        public async Task<IReadOnlyList<Uri>> SaveAsync(IEnumerable<SaveBlobRequest> saveBlobRequests, CancellationToken cancellationToken)
+        public async IAsyncEnumerable<Uri?> SaveAsync(IEnumerable<SaveBlobRequest> saveBlobRequests,
+            [EnumeratorCancellation] CancellationToken cancellationToken)
         {
-            List<Uri> uris = new();
             foreach (var saveBlobRequest in saveBlobRequests)
-            {
-                var uri = await SaveAsync(saveBlobRequest, cancellationToken);
-                if (uri is not null) uris.Add(uri);
-            }
-            return uris.AsReadOnly();
+                yield return await SaveAsync(saveBlobRequest, cancellationToken);
         }
 
         public async Task<bool> DeleteAsync(DeleteBlobRequest request)
         {
             var blobContainer = _blobServiceClient.GetBlobContainerClient(request.Container);
-            if (!await blobContainer.ExistsAsync()) return false;
             return (await blobContainer.DeleteBlobIfExistsAsync(request.Blob)).Value;
         }
     }

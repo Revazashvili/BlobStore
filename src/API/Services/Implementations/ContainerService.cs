@@ -17,9 +17,8 @@ namespace API.Services.Implementations
         
         public async IAsyncEnumerable<string> GetAsync()
         {
-            var result = _blobServiceClient.GetBlobContainersAsync();
-            await foreach (var item in result)
-                yield return item.Name;
+            await foreach (var container in _blobServiceClient.GetBlobContainersAsync()) 
+                yield return container.Name;
         }
 
         public async Task<bool> DeleteAsync(string container)

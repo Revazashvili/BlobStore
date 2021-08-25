@@ -2,7 +2,6 @@ using System.Net;
 using System.Text.Json;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
 namespace API.Extensions
@@ -27,13 +26,9 @@ namespace API.Extensions
                     context.Response.ContentType = "application/json";
 
                     var contextFeature = context.Features.Get<IExceptionHandlerPathFeature>();
-                    if (contextFeature != null)
-                    {
-                        var result = JsonSerializer.Serialize(
-                            $"{contextFeature.Error?.Message} {contextFeature.Error?.InnerException?.Message}");
-                        logger.LogError("Error occured {error} {@result}",contextFeature.Error, result);
-                        await context.Response.WriteAsync(result);
-                    }
+                    var result = JsonSerializer.Serialize(
+                        $"{contextFeature.Error?.Message} {contextFeature.Error?.InnerException?.Message}");
+                    logger.LogError("Error occured {error} {@result}", contextFeature.Error, result);
                 });
             });
         }

@@ -16,7 +16,7 @@ namespace API.Services.Interfaces
         /// Returns all blob name from container.
         /// </summary>
         /// <param name="container">The container name.</param>
-        Task<IReadOnlyList<string>> GetBlobsAsync(string container);
+        IAsyncEnumerable<string> GetBlobsAsync(string container);
         /// <summary>
         /// Returns blob content and content type.
         /// </summary>
@@ -28,7 +28,7 @@ namespace API.Services.Interfaces
         /// </summary>
         /// <param name="container">The container name.</param>
         /// <returns><see cref="IReadOnlyList{T}"/></returns>
-        Task<IReadOnlyList<GetBlobResponse>> GetAllAsync(string container);
+        IAsyncEnumerable<GetBlobResponse> GetAllAsync(string container);
         /// <summary>
         /// Saves blob into blob storage.
         /// </summary>
@@ -36,13 +36,15 @@ namespace API.Services.Interfaces
         /// <param name="cancellationToken"><see cref="CancellationToken"/> instance.</param>
         /// <returns><see cref="Uri"/> of resource.</returns>
         Task<Uri?> SaveAsync(SaveBlobRequest request, CancellationToken cancellationToken);
+
         /// <summary>
         /// Saves list of blob into blob storage.
         /// </summary>
         /// <param name="saveBlobRequests">Request object for saving blobs.</param>
         /// <param name="cancellationToken"><see cref="CancellationToken"/> instance.</param>
         /// <returns><see cref="Uri"/> of resources.</returns>
-        Task<IReadOnlyList<Uri>> SaveAsync(IEnumerable<SaveBlobRequest> saveBlobRequests, CancellationToken cancellationToken);
+        IAsyncEnumerable<Uri?> SaveAsync(IEnumerable<SaveBlobRequest> saveBlobRequests,
+            CancellationToken cancellationToken);
         /// <summary>
         /// Deletes blob from container.
         /// </summary>
