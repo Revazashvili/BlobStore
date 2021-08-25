@@ -5,11 +5,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using API.Models.Requests;
 using API.Models.Responses;
+using API.Services.Interfaces;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 
-namespace API.Services
+namespace API.Services.Implementations
 {
+    /// <inheritdoc cref="IBlobService"/>
     public class BlobService : IBlobService
     {
         private readonly BlobServiceClient _blobServiceClient;
@@ -17,6 +19,11 @@ namespace API.Services
         public BlobService(BlobServiceClient blobServiceClient)
         {
             _blobServiceClient = blobServiceClient;
+        }
+        
+        public Task<IReadOnlyList<string>> GetBlobsAsync(string container)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<GetBlobResponse> GetAsync(GetBlobRequest request)
@@ -46,26 +53,27 @@ namespace API.Services
             if (!await blobClient.ExistsAsync(cancellationToken))
             {
                 await blobClient.UploadAsync(request.Blob.OpenReadStream(), cancellationToken);
-                var resourceLink = new Uri($"https://{blobContainer.AccountName}.blob.core.windows.net/{request.Container}/{blobName}");
-                return resourceLink;
+                return blobClient.Uri;
             }
-
             return null;
         }
 
         public async Task<IReadOnlyList<Uri>> SaveAsync(IEnumerable<SaveBlobRequest> saveBlobRequests, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            List<Uri> uris = new();
+            foreach (var saveBlobRequest in saveBlobRequests)
+            {
+                var uri = await SaveAsync(saveBlobRequest, cancellationToken);
+                if (uri is not null) uris.Add(uri);
+            }
+            return uris.AsReadOnly();
         }
 
-        public Task<bool> DeleteAsync(string container,string blob)
+        public async Task<bool> DeleteAsync(DeleteBlobRequest request)
         {
-            throw new NotImplementedException();
-        }
-        
-        public Task<bool> DeleteAsync(string container)
-        {
-            throw new NotImplementedException();
+            var blobContainer = _blobServiceClient.GetBlobContainerClient(request.Container);
+            if (!await blobContainer.ExistsAsync()) return false;
+            return (await blobContainer.DeleteBlobIfExistsAsync(request.Blob)).Value;
         }
     }
 }

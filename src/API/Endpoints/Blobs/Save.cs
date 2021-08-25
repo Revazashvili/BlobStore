@@ -4,13 +4,13 @@ using System.Threading.Tasks;
 using API.Models.Requests;
 using API.Models.Responses;
 using API.Routes;
-using API.Services;
+using API.Services.Interfaces;
 using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace API.Endpoints
+namespace API.Endpoints.Blobs
 {
     [Route(BlobRoutes.Save)]
     public class Save : BaseAsyncEndpoint

@@ -1,6 +1,4 @@
 using API.Extensions;
-using FluentValidation.AspNetCore;
-using Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -24,8 +22,8 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
             services.ConfigureCors(Configuration,ApiCorsPolicy);
-            
-            services.AddControllers().AddFluentValidation(options => options.AutomaticValidationEnabled = true);;
+
+            services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "API", Version = "v1"});
