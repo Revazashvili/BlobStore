@@ -4,19 +4,19 @@ using System.Threading.Tasks;
 namespace API.Services.Interfaces
 {
     /// <summary>
-    /// Service for manipulating with containers
+    /// Service for manipulating with containers.
     /// </summary>
     public interface IContainerService
     {
         /// <summary>
-        /// Returns all container name from blob storage
+        /// Returns all container name from blob storage.
         /// </summary>
         IAsyncEnumerable<string> GetAsync();
         /// <summary>
-        /// Deletes container from blob storage
+        /// Deletes container from blob storage.
         /// </summary>
-        /// <param name="container">The container name</param>
-        /// <returns>True if container is deleted, otherwise false</returns>
+        /// <param name="container">The container name.</param>
+        /// <returns>True if container is deleted, otherwise false.</returns>
         Task<bool> DeleteAsync(string container);
     }
 }

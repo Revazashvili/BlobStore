@@ -8,14 +8,14 @@ using Microsoft.Extensions.Logging;
 namespace API.Extensions
 {
     /// <summary>
-    /// Extension class for <see cref="IApplicationBuilder"/> interface
+    /// Extension class for <see cref="IApplicationBuilder"/> interface.
     /// </summary>
     public static class ApplicationBuilderExtension
     {
         /// <summary>
-        /// Adds a exception handler to the pipeline
+        /// Adds a exception handler to the pipeline.
         /// </summary>
-        /// <param name="app"><see cref="IApplicationBuilder"/> interface</param>
+        /// <param name="app"><see cref="IApplicationBuilder"/> interface.</param>
         public static void AddExceptionHandler<T>(this IApplicationBuilder app, ILogger<T> logger) 
             where T : class
         {

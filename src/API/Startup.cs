@@ -18,6 +18,9 @@ namespace API
 
         private IConfiguration Configuration { get; }
         
+        /// <summary>
+        /// Name for api cors policy
+        /// </summary>
         private const string ApiCorsPolicy = "APICorsPolicy";
         public void ConfigureServices(IServiceCollection services)
         {

@@ -1,7 +1,7 @@
 ﻿namespace API.Models.Requests
 {
     /// <summary>
-    /// Get blob request object.
+    /// Represents request to get blob.
     /// </summary>
     public class GetBlobRequest
     {
