@@ -19,6 +19,15 @@ namespace API.Endpoints.Blobs
 
         public Get(IBlobService blobService) => _blobService = blobService;
 
+        /// <summary>
+        /// Retrieve blob
+        /// </summary>
+        /// <remarks>
+        /// Retrieves blob from blob storage if exists.
+        /// </remarks>
+        /// <param name="getBlobRequest">The request to retrieve blob.</param>
+        /// <param name="cancellationToken"><see cref="CancellationToken"/> instance.</param>
+        /// <response code="200">Content and content type of blob</response>
         [HttpGet]
         [SwaggerOperation(Tags = new []{"Blob"})]
         public override async Task<ActionResult<GetBlobResponse>> HandleAsync([FromQuery]GetBlobRequest getBlobRequest,

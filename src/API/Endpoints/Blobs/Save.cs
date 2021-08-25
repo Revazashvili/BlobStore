@@ -18,6 +18,15 @@ namespace API.Endpoints.Blobs
         private readonly IBlobService _blobService;
         public Save(IBlobService blobService) => _blobService = blobService;
 
+        /// <summary>
+        /// Save blob
+        /// </summary>
+        /// <remarks>
+        /// Saves blob into blob storage if doesn't exists blob with provided name already.
+        /// </remarks>
+        /// <param name="saveBlobRequest">The request to save blob.</param>
+        /// <param name="cancellationToken"><see cref="CancellationToken"/> instance.</param>
+        /// <response code="200">Url of resource.</response>
         [HttpPost]
         [SwaggerOperation(Tags = new []{"Blob"})]
         public override async Task<ActionResult<Uri>> HandleAsync([FromForm]SaveBlobRequest saveBlobRequest,

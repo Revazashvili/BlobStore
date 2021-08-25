@@ -18,6 +18,15 @@ namespace API.Endpoints.Blobs
         private readonly IBlobService _blobService;
         public GetAll(IBlobService blobService) => _blobService = blobService;
         
+        /// <summary>
+        /// Retrieve blobs
+        /// </summary>
+        /// <remarks>
+        /// Retrieves blobs from blob storage if exists.
+        /// </remarks>
+        /// <param name="container">The container name.</param>
+        /// <param name="cancellationToken"><see cref="CancellationToken"/> instance.</param>
+        /// <response code="200">Content and content type of blobs</response>
         [HttpGet]
         [SwaggerOperation(Tags = new []{"Blob"})]
         public override async Task<ActionResult<IAsyncEnumerable<GetBlobResponse>>> HandleAsync([FromQuery]string container,

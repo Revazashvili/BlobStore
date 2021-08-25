@@ -25,8 +25,7 @@ namespace API.Endpoints.Blobs
         /// </remarks>
         /// <param name="deleteBlobRequest">The request to delete blob.</param>
         /// <param name="cancellationToken"><see cref="CancellationToken"/> instance.</param>
-        /// <returns>True if successfully delete blob, otherwise false.</returns>
-        /// <response code="200">Some response on 200</response>
+        /// <response code="200">True if successfully delete blob, otherwise false.</response>
         [HttpDelete]
         [SwaggerOperation(Tags = new []{"Blob"})]
         public override async Task<ActionResult<bool>> HandleAsync([FromQuery]DeleteBlobRequest deleteBlobRequest,

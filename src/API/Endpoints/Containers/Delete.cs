@@ -26,7 +26,7 @@ namespace API.Endpoints.Containers
         /// </remarks>
         /// <param name="container">The container name.</param>
         /// <param name="cancellationToken"><see cref="CancellationToken"/> instance.</param>
-        /// <returns>True if successfully delete container, otherwise false.</returns>
+        /// <response code="200">True if successfully delete container, otherwise false.</response>
         [HttpDelete]
         [SwaggerOperation(Tags = new []{"Container"})]
         [Produces(MediaTypeNames.Application.Json)]

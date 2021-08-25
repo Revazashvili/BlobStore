@@ -20,11 +20,12 @@ namespace API.Endpoints.Containers
         public List(IContainerService container) => _container = container;
 
         /// <summary>
-        /// Return all container name
+        /// All container name
         /// </summary>
         /// <remarks>
         /// Returns all container name from blob storage.
         /// </remarks>
+        /// <response code="200">List of container names</response>
         [HttpGet]
         [SwaggerOperation(Tags = new[] {"Container"})]
         [Produces(MediaTypeNames.Application.Json)]

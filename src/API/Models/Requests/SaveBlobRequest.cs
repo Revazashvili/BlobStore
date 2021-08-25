@@ -13,7 +13,9 @@ namespace API.Models.Requests
         public IFormFile Blob { get; set; }
         /// <summary>
         /// Gets or sets blob name.
-        /// <remarks>Blob will be some unique name if this field is null or empty.</remarks>
+        /// <remarks>
+        /// Blob will have some unique name if this field is null or empty.
+        /// </remarks>
         /// </summary>
         public string? BlobName { get; set; }
         /// <summary>
