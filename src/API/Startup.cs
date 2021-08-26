@@ -44,7 +44,12 @@ namespace API
                         Name = "Levan Revazashvili",
                         Url = new Uri("https://twitter.com/revazashvilileo")
                     },
-                    Description = "Api for communicating with Azure blob storage"
+                    Description = "Api for communicating with Azure blob storage",
+                    License = new OpenApiLicense
+                    {
+                        Name = "MIT",
+                        Url = new Uri("https://opensource.org/licenses/MIT")
+                    }
                 });
 
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
