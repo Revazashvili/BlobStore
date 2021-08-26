@@ -13,7 +13,7 @@ namespace API.Endpoints.Blobs
     [Route(BlobRoutes.Save)]
     public class Save : BaseAsyncEndpoint
         .WithRequest<SaveBlobRequest>
-        .WithResponse<Uri>
+        .WithResponse<string>
     {
         private readonly IBlobService _blobService;
         public Save(IBlobService blobService) => _blobService = blobService;
@@ -29,7 +29,7 @@ namespace API.Endpoints.Blobs
         /// <response code="200">Url of resource.</response>
         [HttpPost]
         [SwaggerOperation(Tags = new []{"Blob"})]
-        public override async Task<ActionResult<Uri>> HandleAsync([FromForm]SaveBlobRequest saveBlobRequest,
+        public override async Task<ActionResult<string>> HandleAsync([FromForm]SaveBlobRequest saveBlobRequest,
             CancellationToken cancellationToken = new())
         {
             return Ok(await _blobService.SaveAsync(saveBlobRequest, cancellationToken));

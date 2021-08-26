@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using API.Models.Requests;
@@ -13,8 +12,8 @@ namespace API.Endpoints.Blobs
 {
     [Route(BlobRoutes.SaveMany)]
     public class SaveMany : BaseAsyncEndpoint
-        .WithRequest<IEnumerable<SaveBlobRequest>>
-        .WithResponse<IAsyncEnumerable<Uri>>
+        .WithRequest<SaveManyBlobRequest>
+        .WithResponse<IAsyncEnumerable<string>>
     {
         private readonly IBlobService _blobService;
         public SaveMany(IBlobService blobService) => _blobService = blobService;
@@ -30,7 +29,7 @@ namespace API.Endpoints.Blobs
         /// <response code="200">Urls of resources.</response>
         [HttpPost]
         [SwaggerOperation(Tags = new []{"Blob"})]
-        public override async Task<ActionResult<IAsyncEnumerable<Uri>>> HandleAsync([FromForm]IEnumerable<SaveBlobRequest> saveBlobRequests, 
+        public override async Task<ActionResult<IAsyncEnumerable<string>>> HandleAsync([FromForm]SaveManyBlobRequest saveBlobRequests, 
             CancellationToken cancellationToken = new())
         {
             return Ok(_blobService.SaveAsync(saveBlobRequests, cancellationToken));

@@ -29,5 +29,9 @@
         /// Route for delete endpoint.
         /// </summary>
         public const string Delete = "api/Blob/Delete";
+        /// <summary>
+        /// Route for download endpoint.
+        /// </summary>
+        public const string Download = "api/Blob/Download";
     }
 }

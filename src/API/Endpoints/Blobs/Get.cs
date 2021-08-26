@@ -1,7 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using API.Models.Requests;
-using API.Models.Responses;
 using API.Routes;
 using API.Services.Interfaces;
 using Ardalis.ApiEndpoints;
@@ -13,10 +12,9 @@ namespace API.Endpoints.Blobs
     [Route(BlobRoutes.Get)]
     public class Get : BaseAsyncEndpoint
         .WithRequest<GetBlobRequest>
-        .WithResponse<GetBlobResponse>
+        .WithResponse<string?>
     {
         private readonly IBlobService _blobService;
-
         public Get(IBlobService blobService) => _blobService = blobService;
 
         /// <summary>
@@ -27,13 +25,13 @@ namespace API.Endpoints.Blobs
         /// </remarks>
         /// <param name="getBlobRequest">The request to retrieve blob.</param>
         /// <param name="cancellationToken"><see cref="CancellationToken"/> instance.</param>
-        /// <response code="200">Content and content type of blob</response>
         [HttpGet]
         [SwaggerOperation(Tags = new []{"Blob"})]
-        public override async Task<ActionResult<GetBlobResponse>> HandleAsync([FromQuery]GetBlobRequest getBlobRequest,
+        public override async Task<ActionResult<string?>> HandleAsync([FromQuery]GetBlobRequest getBlobRequest,
             CancellationToken cancellationToken = new())
         {
-            return Ok(await _blobService.GetAsync(getBlobRequest));
+            var response = await _blobService.GetAsync(getBlobRequest);
+            return Ok(response);
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using API.Models.Responses;
 using API.Routes;
 using API.Services.Interfaces;
 using Ardalis.ApiEndpoints;
@@ -13,7 +12,7 @@ namespace API.Endpoints.Blobs
     [Route(BlobRoutes.GetAll)]
     public class GetAll : BaseAsyncEndpoint
         .WithRequest<string>
-        .WithResponse<IAsyncEnumerable<GetBlobResponse>>
+        .WithResponse<IAsyncEnumerable<string?>>
     {
         private readonly IBlobService _blobService;
         public GetAll(IBlobService blobService) => _blobService = blobService;
@@ -29,7 +28,7 @@ namespace API.Endpoints.Blobs
         /// <response code="200">Content and content type of blobs</response>
         [HttpGet]
         [SwaggerOperation(Tags = new []{"Blob"})]
-        public override async Task<ActionResult<IAsyncEnumerable<GetBlobResponse>>> HandleAsync([FromQuery]string container,
+        public override async Task<ActionResult<IAsyncEnumerable<string?>>> HandleAsync([FromQuery]string container,
             CancellationToken cancellationToken = new())
         {
             return Ok(_blobService.GetAllAsync(container, cancellationToken));
