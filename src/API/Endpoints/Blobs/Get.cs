@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Net.Mime;
+using System.Threading;
 using System.Threading.Tasks;
 using API.Models.Requests;
 using API.Routes;
@@ -27,6 +28,8 @@ namespace API.Endpoints.Blobs
         /// <param name="cancellationToken"><see cref="CancellationToken"/> instance.</param>
         [HttpGet]
         [SwaggerOperation(Tags = new []{"Blob"})]
+        [Produces(MediaTypeNames.Application.Json)]
+        [Consumes(MediaTypeNames.Application.Json)]
         public override async Task<ActionResult<string?>> HandleAsync([FromQuery]GetBlobRequest getBlobRequest,
             CancellationToken cancellationToken = new())
         {

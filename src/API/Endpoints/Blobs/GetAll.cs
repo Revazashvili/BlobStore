@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Net.Mime;
 using System.Threading;
 using System.Threading.Tasks;
 using API.Routes;
@@ -28,6 +29,8 @@ namespace API.Endpoints.Blobs
         /// <response code="200">Content and content type of blobs</response>
         [HttpGet]
         [SwaggerOperation(Tags = new []{"Blob"})]
+        [Produces(MediaTypeNames.Application.Json)]
+        [Consumes(MediaTypeNames.Application.Json)]
         public override async Task<ActionResult<IAsyncEnumerable<string?>>> HandleAsync([FromQuery]string container,
             CancellationToken cancellationToken = new())
         {
