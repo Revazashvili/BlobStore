@@ -11,6 +11,7 @@ namespace API.Services.Interfaces
         /// <summary>
         /// Returns all container name from blob storage.
         /// </summary>
+        /// <returns><see cref="IAsyncEnumerable{T}"/></returns>
         IAsyncEnumerable<string> GetAsync();
         
         /// <summary>
