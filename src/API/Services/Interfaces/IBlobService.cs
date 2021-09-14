@@ -18,12 +18,14 @@ namespace API.Services.Interfaces
         /// <param name="container">The container name.</param>
         /// <param name="cancellationToken"><see cref="CancellationToken"/> instance.</param>
         IAsyncEnumerable<string> GetListAsync(string container,CancellationToken cancellationToken);
+        
         /// <summary>
         /// Returns blob content and content type.
         /// </summary>
         /// <param name="request">The request object for retrieving blob.</param>
-        /// <returns><see cref="GetBlobResponse"/></returns>
+        /// <returns><see cref="string"/></returns>
         Task<string?> GetAsync(GetBlobRequest request);
+        
         /// <summary>
         /// Returns all blob from container.
         /// </summary>
@@ -31,6 +33,7 @@ namespace API.Services.Interfaces
         /// <param name="cancellationToken"><see cref="CancellationToken"/> instance.</param>
         /// <returns><see cref="IReadOnlyList{T}"/></returns>
         IAsyncEnumerable<string?> GetAllAsync(string container,CancellationToken cancellationToken);
+        
         /// <summary>
         /// Saves blob into blob storage.
         /// </summary>
@@ -47,6 +50,7 @@ namespace API.Services.Interfaces
         /// <returns><see cref="Uri"/> of resources.</returns>
         IAsyncEnumerable<string> SaveAsync(SaveManyBlobRequest saveBlobRequests,
             CancellationToken cancellationToken);
+        
         /// <summary>
         /// Deletes blob from container.
         /// </summary>
@@ -54,6 +58,7 @@ namespace API.Services.Interfaces
         /// <param name="cancellationToken"><see cref="CancellationToken"/> instance.</param>
         /// <returns>True if successfully delete blob, otherwise false.</returns>
         Task<bool> DeleteAsync(DeleteBlobRequest request,CancellationToken cancellationToken);
+        
         /// <summary>
         /// Downloads blob from blob storage
         /// </summary>

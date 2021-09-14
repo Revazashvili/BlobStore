@@ -20,10 +20,12 @@ namespace API.Models.Responses
         /// Gets or sets blob name. 
         /// </summary>
         public string Name { get; }
+        
         /// <summary>
         /// Gets or sets blob uri.
         /// </summary>
         public Stream Content { get; }
+        
         /// <summary>
         /// Gets or sets blob content type.
         /// </summary>

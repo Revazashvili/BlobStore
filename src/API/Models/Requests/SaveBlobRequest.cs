@@ -25,6 +25,7 @@ namespace API.Models.Requests
         /// Gets or sets blob to save in blob storage.
         /// </summary>
         public IFormFile Blob { get; set; }
+        
         /// <summary>
         /// Gets or sets flag indicating if blob will has default name or not.
         /// <remarks>
@@ -32,6 +33,7 @@ namespace API.Models.Requests
         /// </remarks>
         /// </summary>
         public bool HasDefaultName { get; set; }
+        
         /// <summary>
         /// Gets or sets container name.
         /// </summary>

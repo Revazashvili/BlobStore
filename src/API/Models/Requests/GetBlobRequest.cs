@@ -9,6 +9,7 @@
         /// Initializes a new instance of the GetBlobRequest class.
         /// </summary>
         public GetBlobRequest() { }
+        
         /// <summary>
         /// Initializes a new instance of the GetBlobRequest class.
         /// </summary>
@@ -20,6 +21,7 @@
         /// Gets or sets blob name.
         /// </summary>
         public string Blob { get; set; }
+        
         /// <summary>
         /// Gets or sets container name.
         /// </summary>

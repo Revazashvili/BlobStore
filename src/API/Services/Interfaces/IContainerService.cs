@@ -12,6 +12,7 @@ namespace API.Services.Interfaces
         /// Returns all container name from blob storage.
         /// </summary>
         IAsyncEnumerable<string> GetAsync();
+        
         /// <summary>
         /// Deletes container from blob storage.
         /// </summary>
