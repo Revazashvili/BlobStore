@@ -33,7 +33,6 @@ namespace API.Endpoints.Blobs
             CancellationToken cancellationToken = new())
         {
             var downloadBlobResponse = await _blobService.DownloadAsync(downloadBlobRequest);
-            if (downloadBlobResponse is null) return BadRequest();
             return File(downloadBlobResponse.Content, downloadBlobResponse.ContentType, downloadBlobResponse.Name);
         }
     }

@@ -29,10 +29,10 @@ namespace API.Endpoints.Containers
         [HttpGet]
         [SwaggerOperation(Tags = new[] {"Container"})]
         [Produces(MediaTypeNames.Application.Json)]
-        public override async Task<ActionResult<IAsyncEnumerable<string>>> HandleAsync(
+        public override Task<ActionResult<IAsyncEnumerable<string>>> HandleAsync(
             CancellationToken cancellationToken = new())
         {
-            return Ok(_container.GetAsync());
+            return Task.FromResult<ActionResult<IAsyncEnumerable<string>>>(Ok(_container.GetAsync(cancellationToken)));
         }
 
     }

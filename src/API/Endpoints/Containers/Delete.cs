@@ -34,7 +34,7 @@ namespace API.Endpoints.Containers
         public override async Task<ActionResult<bool>> HandleAsync([FromQuery]string container,
             CancellationToken cancellationToken = new())
         {
-            return Ok(await _container.DeleteAsync(container));
+            return Ok(await _container.DeleteAsync(container, cancellationToken));
         }
     }
 }

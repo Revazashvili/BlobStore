@@ -19,13 +19,13 @@ namespace API.Services.Interfaces
         /// <param name="cancellationToken"><see cref="CancellationToken"/> instance.</param>
         /// <returns><see cref="IAsyncEnumerable{T}"/></returns>
         IAsyncEnumerable<string> GetListAsync(string container,CancellationToken cancellationToken);
-        
+
         /// <summary>
         /// Returns blob content and content type.
         /// </summary>
         /// <param name="request">The request object for retrieving blob.</param>
         /// <returns><see cref="string"/></returns>
-        Task<string?> GetAsync(GetBlobRequest request);
+        Task<string> GetAsync(GetBlobRequest request);
         
         /// <summary>
         /// Returns all blob from container.
@@ -64,6 +64,6 @@ namespace API.Services.Interfaces
         /// Downloads blob from blob storage
         /// </summary>
         /// <param name="downloadBlobRequest">Request object to download blob.</param>
-        Task<DownloadBlobResponse?> DownloadAsync(DownloadBlobRequest downloadBlobRequest);
+        Task<DownloadBlobResponse> DownloadAsync(DownloadBlobRequest downloadBlobRequest);
     }
 }
