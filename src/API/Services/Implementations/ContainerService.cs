@@ -4,15 +4,16 @@ using System.Threading;
 using System.Threading.Tasks;
 using API.Services.Interfaces;
 using Azure.Storage.Blobs;
+using Forbids;
 
 namespace API.Services.Implementations
 {
     public class ContainerService : IContainerService
     {
         private readonly BlobServiceClient _blobServiceClient;
-
-        public ContainerService(BlobServiceClient blobServiceClient) =>
-            _blobServiceClient = blobServiceClient;
+        private readonly IForbid _forbid;
+        public ContainerService(BlobServiceClient blobServiceClient,IForbid forbid) =>
+            (_blobServiceClient,_forbid) = (blobServiceClient,forbid);
 
         public async IAsyncEnumerable<string> GetAsync([EnumeratorCancellation] CancellationToken cancellationToken)
         {
@@ -24,7 +25,8 @@ namespace API.Services.Implementations
         public async Task<bool> DeleteAsync(string container,CancellationToken cancellationToken)
         {
             var blobContainer = _blobServiceClient.GetBlobContainerClient(container);
-            return (await blobContainer?.DeleteIfExistsAsync(cancellationToken:cancellationToken)!).Value;
+            _forbid.Null(blobContainer, new BlobContainerNotExistsException());
+            return (await blobContainer.DeleteIfExistsAsync(cancellationToken:cancellationToken)!).Value;
         }
     }
 }

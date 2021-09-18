@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using API.Extensions;
@@ -9,7 +8,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.OpenApi.Interfaces;
 using Microsoft.OpenApi.Models;
 
 namespace API
@@ -30,7 +28,8 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
             services.ConfigureCors(Configuration,ApiCorsPolicy);
-
+            services.AddServices(Configuration);
+            
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

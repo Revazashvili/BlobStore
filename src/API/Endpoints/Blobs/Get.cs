@@ -33,8 +33,7 @@ namespace API.Endpoints.Blobs
         public override async Task<ActionResult<string?>> HandleAsync([FromQuery]GetBlobRequest getBlobRequest,
             CancellationToken cancellationToken = new())
         {
-            var response = await _blobService.GetAsync(getBlobRequest);
-            return Ok(response);
+            return Ok(await _blobService.GetAsync(getBlobRequest));
         }
     }
 }

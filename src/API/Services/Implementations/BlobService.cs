@@ -9,6 +9,7 @@ using API.Models.Responses;
 using API.Services.Interfaces;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
+using Forbids;
 using Microsoft.Extensions.Logging;
 
 namespace API.Services.Implementations
@@ -17,9 +18,9 @@ namespace API.Services.Implementations
     {
         private readonly BlobServiceClient _blobServiceClient;
         private readonly ILogger<BlobService> _logger;
-
-        public BlobService(BlobServiceClient blobServiceClient, ILogger<BlobService> logger) =>
-            (_blobServiceClient, _logger) = (blobServiceClient, logger);
+        private readonly IForbid _forbid;
+        public BlobService(BlobServiceClient blobServiceClient, ILogger<BlobService> logger,IForbid forbid) =>
+            (_blobServiceClient, _logger,_forbid) = (blobServiceClient, logger,forbid);
 
         public async IAsyncEnumerable<string> GetListAsync(string container,
             [EnumeratorCancellation] CancellationToken cancellationToken)
@@ -33,8 +34,7 @@ namespace API.Services.Implementations
         {
             var blobContainer = _blobServiceClient.GetBlobContainerClient(request.Container);
             var blobClient = blobContainer.GetBlobClient(request.Blob);
-            if (blobClient is null) 
-                throw new BlobNotExistsException();
+            _forbid.Null(blobClient, new BlobNotExistsException());
             return Task.FromResult(blobClient.Uri.AbsoluteUri)!;
         }
 
@@ -53,8 +53,7 @@ namespace API.Services.Implementations
                 ? request.Blob.FileName
                 : $"{Guid.NewGuid():N}{Path.GetExtension(request.Blob.FileName)}";
             var blobClient = blobContainer.GetBlobClient(blobName);
-            if (await blobClient.ExistsAsync(cancellationToken))
-                throw new BlobAlreadyExistsException(blobName);
+            _forbid.True(await blobClient.ExistsAsync(cancellationToken),new BlobAlreadyExistsException(blobName));
             await blobClient.UploadAsync(request.Blob.OpenReadStream(), cancellationToken);
             return blobClient.Uri.AbsoluteUri;
         }
@@ -77,14 +76,10 @@ namespace API.Services.Implementations
         {
             var blobContainer = _blobServiceClient.GetBlobContainerClient(downloadBlobRequest.Container);
             var blobClient = blobContainer.GetBlobClient(downloadBlobRequest.Blob);
-            if (await blobClient.ExistsAsync())
-            {
-                var downloadedContent = await blobClient.DownloadAsync();
-                return new DownloadBlobResponse(blobClient.Name, downloadedContent.Value.Content,
-                    downloadedContent.Value.ContentType);
-            }
-
-            throw new BlobNotExistsException();
+            _forbid.False(await blobClient.ExistsAsync(), new BlobNotExistsException());
+            var downloadedContent = await blobClient.DownloadAsync();
+            return new DownloadBlobResponse(blobClient.Name, downloadedContent.Value.Content,
+                downloadedContent.Value.ContentType);
         }
     }
 }
