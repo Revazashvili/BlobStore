@@ -21,11 +21,12 @@ Api for communicating with azure blob storage
 
 This is a api that uploads files to azure blob storage. have ability to create, delete and retrieve blobs and containers. it provides it's own sdk.
 
-<!-- TECHOLOGIES -->
+<!-- TECHNOLOGIES -->
 ## Technologies
 * [.NET 5](https://dotnet.microsoft.com/download/dotnet/5.0)
 * [Azure Blob Storage](https://azure.microsoft.com/en-us/services/storage/blobs/)
 * [Serilog](https://serilog.net/)
+* [Forbid](https://github.com/Revazashvili/Forbid)
 
 <!-- GETTING STARTED -->
 ## Getting Started
