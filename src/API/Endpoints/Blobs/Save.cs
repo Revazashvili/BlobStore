@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using API.Models.Requests;
 using API.Routes;
@@ -30,8 +29,6 @@ public class Save : BaseAsyncEndpoint
     [HttpPost]
     [SwaggerOperation(Tags = new []{"Blob"})]
     public override async Task<ActionResult<string>> HandleAsync([FromForm]SaveBlobRequest saveBlobRequest,
-        CancellationToken cancellationToken = new())
-    {
-        return Ok(await _blobService.SaveAsync(saveBlobRequest, cancellationToken));
-    }
+        CancellationToken cancellationToken = new()) =>
+        Ok(await _blobService.SaveAsync(saveBlobRequest, cancellationToken));
 }

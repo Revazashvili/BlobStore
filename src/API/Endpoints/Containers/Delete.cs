@@ -32,8 +32,6 @@ public class Delete : BaseAsyncEndpoint
     [Produces(MediaTypeNames.Application.Json)]
     [Consumes(MediaTypeNames.Application.Json)]
     public override async Task<ActionResult<bool>> HandleAsync([FromQuery]string container,
-        CancellationToken cancellationToken = new())
-    {
-        return Ok(await _container.DeleteAsync(container, cancellationToken));
-    }
+        CancellationToken cancellationToken = new()) =>
+        Ok(await _container.DeleteAsync(container, cancellationToken));
 }

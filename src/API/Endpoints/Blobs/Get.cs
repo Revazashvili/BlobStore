@@ -31,8 +31,6 @@ public class Get : BaseAsyncEndpoint
     [Produces(MediaTypeNames.Application.Json)]
     [Consumes(MediaTypeNames.Application.Json)]
     public override async Task<ActionResult<string?>> HandleAsync([FromQuery]GetBlobRequest getBlobRequest,
-        CancellationToken cancellationToken = new())
-    {
-        return Ok(await _blobService.GetAsync(getBlobRequest));
-    }
+        CancellationToken cancellationToken = new()) =>
+        Ok(await _blobService.GetAsync(getBlobRequest));
 }

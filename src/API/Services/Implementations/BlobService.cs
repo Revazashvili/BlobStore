@@ -17,10 +17,9 @@ namespace API.Services.Implementations;
 public class BlobService : IBlobService
 {
     private readonly BlobServiceClient _blobServiceClient;
-    private readonly ILogger<BlobService> _logger;
     private readonly IForbid _forbid;
-    public BlobService(BlobServiceClient blobServiceClient, ILogger<BlobService> logger,IForbid forbid) =>
-        (_blobServiceClient, _logger,_forbid) = (blobServiceClient, logger,forbid);
+    public BlobService(BlobServiceClient blobServiceClient,IForbid forbid) =>
+        (_blobServiceClient,_forbid) = (blobServiceClient,forbid);
 
     public async IAsyncEnumerable<string> GetListAsync(string container,
         [EnumeratorCancellation] CancellationToken cancellationToken)

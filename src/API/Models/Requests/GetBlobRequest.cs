@@ -8,11 +8,6 @@ public class GetBlobRequest
     /// <summary>
     /// Initializes a new instance of the GetBlobRequest class.
     /// </summary>
-    public GetBlobRequest() { }
-        
-    /// <summary>
-    /// Initializes a new instance of the GetBlobRequest class.
-    /// </summary>
     /// <param name="blob">The blob name.</param>
     /// <param name="container">The container name.</param>
     public GetBlobRequest(string blob, string container) => (Blob, Container) = (blob, container);

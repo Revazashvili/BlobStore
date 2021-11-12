@@ -30,8 +30,6 @@ public class SaveMany : BaseAsyncEndpoint
     [HttpPost]
     [SwaggerOperation(Tags = new []{"Blob"})]
     public override async Task<ActionResult<IAsyncEnumerable<string>>> HandleAsync([FromForm]SaveManyBlobRequest saveBlobRequests, 
-        CancellationToken cancellationToken = new())
-    {
-        return Ok(_blobService.SaveAsync(saveBlobRequests, cancellationToken));
-    }
+        CancellationToken cancellationToken = new()) =>
+        Ok(_blobService.SaveAsync(saveBlobRequests, cancellationToken));
 }

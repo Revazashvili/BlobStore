@@ -10,11 +10,6 @@ public class SaveBlobRequest
     /// <summary>
     /// Initializes a new instance of the GetBlobRequest class.
     /// </summary>
-    public SaveBlobRequest() { }
-
-    /// <summary>
-    /// Initializes a new instance of the GetBlobRequest class.
-    /// </summary>
     /// <param name="blob"><inheritdoc cref="Blob"/></param>
     /// <param name="hasDefaultName"><inheritdoc cref="HasDefaultName"/></param>
     /// <param name="container"><inheritdoc cref="Container"/></param>

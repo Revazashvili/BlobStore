@@ -29,8 +29,6 @@ public class Delete : BaseAsyncEndpoint
     [HttpDelete]
     [SwaggerOperation(Tags = new []{"Blob"})]
     public override async Task<ActionResult<bool>> HandleAsync([FromQuery]DeleteBlobRequest deleteBlobRequest,
-        CancellationToken cancellationToken = new())
-    {
-        return Ok(await _blobService.DeleteAsync(deleteBlobRequest, cancellationToken));
-    }
+        CancellationToken cancellationToken = new()) =>
+        Ok(await _blobService.DeleteAsync(deleteBlobRequest, cancellationToken));
 }

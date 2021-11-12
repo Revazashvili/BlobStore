@@ -32,8 +32,6 @@ public class List : BaseAsyncEndpoint
     [Produces(MediaTypeNames.Application.Json)]
     [Consumes(MediaTypeNames.Application.Json)]
     public override async Task<ActionResult<IAsyncEnumerable<string>>> HandleAsync([FromQuery] string container,
-        CancellationToken cancellationToken = new())
-    {
-        return Ok(_blobService.GetListAsync(container, cancellationToken));
-    }
+        CancellationToken cancellationToken = new()) =>
+        Ok(_blobService.GetListAsync(container, cancellationToken));
 }

@@ -32,8 +32,6 @@ public class GetAll : BaseAsyncEndpoint
     [Produces(MediaTypeNames.Application.Json)]
     [Consumes(MediaTypeNames.Application.Json)]
     public override async Task<ActionResult<IAsyncEnumerable<string?>>> HandleAsync([FromQuery]string container,
-        CancellationToken cancellationToken = new())
-    {
-        return Ok(_blobService.GetAllAsync(container, cancellationToken));
-    }
+        CancellationToken cancellationToken = new()) =>
+        Ok(_blobService.GetAllAsync(container, cancellationToken));
 }

@@ -30,9 +30,6 @@ public class List : BaseAsyncEndpoint
     [SwaggerOperation(Tags = new[] {"Container"})]
     [Produces(MediaTypeNames.Application.Json)]
     public override Task<ActionResult<IAsyncEnumerable<string>>> HandleAsync(
-        CancellationToken cancellationToken = new())
-    {
-        return Task.FromResult<ActionResult<IAsyncEnumerable<string>>>(Ok(_container.GetAsync(cancellationToken)));
-    }
-
+        CancellationToken cancellationToken = new()) =>
+        Task.FromResult<ActionResult<IAsyncEnumerable<string>>>(Ok(_container.GetAsync(cancellationToken)));
 }
