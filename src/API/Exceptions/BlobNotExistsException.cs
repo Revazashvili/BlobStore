@@ -1,11 +1,10 @@
 ﻿using System;
 
-namespace API
+namespace API;
+
+public class BlobNotExistsException : Exception
 {
-    public class BlobNotExistsException : Exception
+    public BlobNotExistsException() : base("Blob with this name doesn't exists.")
     {
-        public BlobNotExistsException() : base("Blob with this name doesn't exists.")
-        {
-        }
     }
 }

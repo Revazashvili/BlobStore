@@ -8,32 +8,31 @@ using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace API.Endpoints.Containers
+namespace API.Endpoints.Containers;
+
+[Route(ContainerRoutes.List)]
+public class List : BaseAsyncEndpoint
+    .WithoutRequest
+    .WithResponse<IAsyncEnumerable<string>>
 {
-    [Route(ContainerRoutes.List)]
-    public class List : BaseAsyncEndpoint
-        .WithoutRequest
-        .WithResponse<IAsyncEnumerable<string>>
+    private readonly IContainerService _container;
+
+    public List(IContainerService container) => _container = container;
+
+    /// <summary>
+    /// All container name
+    /// </summary>
+    /// <remarks>
+    /// Returns all container name from blob storage.
+    /// </remarks>
+    /// <response code="200">List of container names</response>
+    [HttpGet]
+    [SwaggerOperation(Tags = new[] {"Container"})]
+    [Produces(MediaTypeNames.Application.Json)]
+    public override Task<ActionResult<IAsyncEnumerable<string>>> HandleAsync(
+        CancellationToken cancellationToken = new())
     {
-        private readonly IContainerService _container;
-
-        public List(IContainerService container) => _container = container;
-
-        /// <summary>
-        /// All container name
-        /// </summary>
-        /// <remarks>
-        /// Returns all container name from blob storage.
-        /// </remarks>
-        /// <response code="200">List of container names</response>
-        [HttpGet]
-        [SwaggerOperation(Tags = new[] {"Container"})]
-        [Produces(MediaTypeNames.Application.Json)]
-        public override Task<ActionResult<IAsyncEnumerable<string>>> HandleAsync(
-            CancellationToken cancellationToken = new())
-        {
-            return Task.FromResult<ActionResult<IAsyncEnumerable<string>>>(Ok(_container.GetAsync(cancellationToken)));
-        }
-
+        return Task.FromResult<ActionResult<IAsyncEnumerable<string>>>(Ok(_container.GetAsync(cancellationToken)));
     }
+
 }
